@@ -10,13 +10,15 @@ class Order {
     }
 
     addOrUpdateOrder(order) {
-
+        order.updatedTime = Date.now();
+        order.expireTime = Date.now() + 60 * 1000;
         var found = _.findIndex(this.orders, { id: order.id } );
         console.log(found, order.id);
         if (found) {
             this.orders.splice(found, 1, order);
+            return order;
         } else {
-            this.addOrder(order);
+            return this.addOrder(order);
         }
     }
 
@@ -32,7 +34,9 @@ class Order {
             message: {
                 product: 't',
                 price: utils.getRandomArbitrary(2,5)
-            }
+            },
+            updatedTime: Date.now(),
+            expireTime: Date.now() + 60 * 1000
         };
     }
 }

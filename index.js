@@ -42,8 +42,8 @@ wss.on('connection', function (ws) {
                 }
             }, 1000);
         } else {
-            Order.addOrUpdateOrder(req.order);
-            wss.broadcast(data);
+            var updatedOrder = Order.addOrUpdateOrder(req.order);
+            wss.broadcast(JSON.stringify({order: updatedOrder}));
         }
     });
 
