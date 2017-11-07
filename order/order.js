@@ -12,13 +12,30 @@ class Order {
     addOrUpdateOrder(order) {
         order.updatedTime = Date.now();
         order.expireTime = Date.now() + 60 * 1000;
+
         var found = _.findIndex(this.orders, { id: order.id } );
         console.log(found, order.id);
-        if (found) {
+        if (found>-1) {
+            if (order.status !== 'PENDING') {
+                order.updatedTime = this.orders[found].updatedTime;
+                order.expireTime = Date.now();
+            }
             this.orders.splice(found, 1, order);
             return order;
         } else {
             return this.addOrder(order);
+        }
+    }
+
+    updateStatus(id, status) {
+        var found = _.findIndex(this.orders, { id: id } );
+        if (found) {
+            const foundOrder = this.orders[found];
+            foundOrder.expireTime = Date.now();
+            foundOrder.status = status;
+            return foundOrder;
+        } else {
+            return null;
         }
     }
 
@@ -36,7 +53,8 @@ class Order {
                 price: utils.getRandomArbitrary(2,5)
             },
             updatedTime: Date.now(),
-            expireTime: Date.now() + 60 * 1000
+            expireTime: Date.now() + 60 * 1000,
+            status: 'PENDING'
         };
     }
 }
