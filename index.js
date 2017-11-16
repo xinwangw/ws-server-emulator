@@ -4,11 +4,20 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var server = require('http').createServer();
+var cors = require('cors')
 var Order = require('./order/order');
 
 var port = 9090;
 
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(cors());
+
+app.get('/users/:userId', function (req, res) {
+    res.send({
+        userId: req.params.userId,
+        name: 'Test user '+req.params.userId
+    })
+});
 
 var wss = new WebSocketServer({server: server});
 // Broadcast to all.

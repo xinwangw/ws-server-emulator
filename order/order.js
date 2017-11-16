@@ -47,7 +47,7 @@ class Order {
 
     genOrder() {
         return {
-            author: 'test',
+            author: 'test '+ utils.getRandomInt(1,3),
             message: {
                 product: 't',
                 price: utils.getRandomArbitrary(2,5)
