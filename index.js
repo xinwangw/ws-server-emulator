@@ -6,6 +6,8 @@ var app = express();
 var server = require('http').createServer();
 var Order = require('./order/order');
 
+var port = 9090;
+
 app.use(express.static(path.join(__dirname, '/public')));
 
 var wss = new WebSocketServer({server: server});
@@ -53,6 +55,6 @@ wss.on('connection', function (ws) {
 });
 
 server.on('request', app);
-server.listen(8080, function () {
-    console.log('Listening on http://localhost:8080');
+server.listen(port, function () {
+    console.log(`Listening on http://localhost:${port}`);
 });
